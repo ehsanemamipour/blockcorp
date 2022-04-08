@@ -18,7 +18,7 @@ abstract class HTTPService<T> {
 }
 
 class DioService implements HTTPService {
-  DioService({required this.dio, required String downloadPath});
+  DioService({required this.dio});
 
   String token = '';
   final Dio dio;

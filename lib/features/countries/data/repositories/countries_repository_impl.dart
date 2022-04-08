@@ -13,7 +13,6 @@ class CountriesRepositoryImpl extends CountriesRepository {
   final NetworkInfo networkInfo;
   @override
   Future<Either<Failure, List<Countries>>> fetchCountries() async {
-    return requestToServer(await networkInfo.hasConnection!,
-        () => remoteDataSource.fetchCountries());
+    return requestToServer(true, () => remoteDataSource.fetchCountries());
   }
 }

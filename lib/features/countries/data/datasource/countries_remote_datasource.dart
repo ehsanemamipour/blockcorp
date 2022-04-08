@@ -16,7 +16,6 @@ class CountriesRemoteDataSourceImpl extends CountriesRemoteDataSource {
     List<CountriesModel> countries = [];
     try {
       final result = await httpService.getData(ServerPaths.countris);
-
       result.data.forEach((dynamic element) {
         countries.add(CountriesModel.fromJSON(element));
       });
