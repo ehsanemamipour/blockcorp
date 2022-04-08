@@ -51,7 +51,9 @@ class _CountriesListPageState extends State<CountriesListPage> {
                       style: const TextStyle(color: Colors.white, fontSize: 15),
                       textAlignVertical: TextAlignVertical.center,
                       cursorColor: Colors.white,
-                      onChanged: (text) {},
+                      onChanged: (text) {
+                        _controller.searchCountry(text);
+                      },
                       cursorWidth: 1,
                       decoration: InputDecoration(
                           hintText: 'search',
@@ -80,7 +82,7 @@ class _CountriesListPageState extends State<CountriesListPage> {
                         return Text(_controller.error ?? '');
                       }
                       return ListView.builder(
-                          itemCount: _controller.countriesList.length,
+                          itemCount: _controller.searchtList.length,
                           itemBuilder: ((context, index) {
                             final _isSelectedStream =
                                 StreamController<bool>.broadcast();
@@ -90,25 +92,18 @@ class _CountriesListPageState extends State<CountriesListPage> {
                                   bool data = snapshot.data ?? false;
                                   return CountryItem(
                                     commonName: _controller
-                                            .countriesList[index].commonName ??
+                                            .searchtList[index].commonName ??
                                         '',
                                     officialName: _controller
-                                            .countriesList[index]
-                                            .officialName ??
+                                            .searchtList[index].officialName ??
                                         '',
                                     hasCheckbox: true,
-                                    checkboxValue: data,
+                                    checkboxValue: _controller
+                                        .searchtList[index].isSelected,
                                     onChanged: (value) {
+                                      _controller.changeSelectedValue(
+                                          _controller.searchtList[index]);
                                       _isSelectedStream.add(!data);
-                                      if (value != null) {
-                                        if (value) {
-                                          _controller.addCountry(
-                                              _controller.countriesList[index]);
-                                        } else {
-                                          _controller.removeCountry(
-                                              _controller.countriesList[index]);
-                                        }
-                                      }
                                     },
                                   );
                                 });
@@ -117,7 +112,11 @@ class _CountriesListPageState extends State<CountriesListPage> {
             CustomButton(
               name: 'Done',
               onPressed: () {
-                Navigator.pop(context, _controller.selectesCountriesList);
+                Navigator.pop(
+                    context,
+                    _controller.countriesList
+                        .where((element) => element.isSelected == true)
+                        .toList());
               },
             )
           ],
