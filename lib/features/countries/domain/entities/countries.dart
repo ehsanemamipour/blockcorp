@@ -6,8 +6,8 @@ class Countries extends Equatable {
     required this.officialName,
   });
 
-  final String commonName;
-  final String officialName;
+  final String? commonName;
+  final String? officialName;
 
   @override
   List<Object?> get props => [officialName];

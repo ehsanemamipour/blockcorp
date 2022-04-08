@@ -17,7 +17,7 @@ class CountriesRemoteDataSourceImpl extends CountriesRemoteDataSource {
     try {
       final result = await httpService.getData(ServerPaths.countris);
       result.data.forEach((dynamic element) {
-        countries.add(CountriesModel.fromJSON(element));
+        countries.add(CountriesModel.fromJSON(element['name']));
       });
       return countries;
     } on DioError catch (e) {

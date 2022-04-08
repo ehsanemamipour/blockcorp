@@ -8,13 +8,6 @@ abstract class HTTPService<T> {
   Future<T> postData(String url, {dynamic data, Map<String, dynamic>? header});
   Future<T> patchData(String url,
       {Map<String, dynamic>? data, Map<String, dynamic>? header});
-
-  Future<Response<List<int>>> getCachedData({
-    required String url,
-    DownloadProgressCallback? onProgress,
-    Map<String, dynamic>? queryParameters,
-    Map<String, dynamic>? header,
-  });
 }
 
 class DioService implements HTTPService {
@@ -45,15 +38,4 @@ class DioService implements HTTPService {
       {Map<String, dynamic>? data, Map<String, dynamic>? header}) {
     return dio.patch(url, data: data, options: Options(headers: header));
   }
-
-  @override
-  Future<Response<List<int>>> getCachedData(
-      {required String url,
-      DownloadProgressCallback? onProgress,
-      Map<String, dynamic>? queryParameters,
-      Map<String, dynamic>? header}) {
-    throw UnimplementedError();
-  }
 }
-
-typedef DownloadProgressCallback = void Function(int count, int total);
