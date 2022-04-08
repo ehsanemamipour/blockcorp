@@ -1,3 +1,5 @@
+import 'package:blockcorp/features/countries/presentation/widgets/country_item.dart';
+import 'package:blockcorp/features/countries/presentation/widgets/custom_button.dart';
 import 'package:flutter/material.dart';
 
 class HomePage extends StatelessWidget {
@@ -5,6 +7,30 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return SafeArea(
+      child: Scaffold(
+        body: Column(
+          children: [
+            const SizedBox(
+              height: 25,
+            ),
+            Expanded(
+                child: ListView.builder(
+                    itemCount: 3,
+                    itemBuilder: ((context, index) {
+                      return const CountryItem(
+                        commonName: 'ssss',
+                        officialName: 'asdad',
+                        hasCheckbox: false,
+                      );
+                    }))),
+            CustomButton(
+              name: 'Add countries',
+              onPressed: () {},
+            )
+          ],
+        ),
+      ),
+    );
   }
 }
