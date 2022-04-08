@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:blockcorp/features/countries/domain/entities/countries.dart';
 import 'package:blockcorp/features/countries/presentation/controllers/countries/countries_controller.dart';
 import 'package:blockcorp/features/countries/presentation/widgets/country_item.dart';
@@ -84,29 +82,21 @@ class _CountriesListPageState extends State<CountriesListPage> {
                       return ListView.builder(
                           itemCount: _controller.searchtList.length,
                           itemBuilder: ((context, index) {
-                            final _isSelectedStream =
-                                StreamController<bool>.broadcast();
-                            return StreamBuilder<bool>(
-                                stream: _isSelectedStream.stream,
-                                builder: (context, snapshot) {
-                                  bool data = snapshot.data ?? false;
-                                  return CountryItem(
-                                    commonName: _controller
-                                            .searchtList[index].commonName ??
-                                        '',
-                                    officialName: _controller
-                                            .searchtList[index].officialName ??
-                                        '',
-                                    hasCheckbox: true,
-                                    checkboxValue: _controller
-                                        .searchtList[index].isSelected,
-                                    onChanged: (value) {
-                                      _controller.changeSelectedValue(
-                                          _controller.searchtList[index]);
-                                      _isSelectedStream.add(!data);
-                                    },
-                                  );
-                                });
+                            return CountryItem(
+                              commonName:
+                                  _controller.searchtList[index].commonName ??
+                                      '',
+                              officialName:
+                                  _controller.searchtList[index].officialName ??
+                                      '',
+                              hasCheckbox: true,
+                              checkboxValue:
+                                  _controller.searchtList[index].isSelected,
+                              onChanged: (value) {
+                                _controller.changeSelectedValue(
+                                    _controller.searchtList[index]);
+                              },
+                            );
                           }));
                     })),
             CustomButton(
