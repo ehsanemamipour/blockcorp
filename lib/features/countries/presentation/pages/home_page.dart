@@ -29,7 +29,8 @@ class HomePage extends StatelessWidget {
             CustomButton(
               name: 'Add countries',
               onPressed: () {
-                Navigator.pushNamed(context, countriesListRoute,
+                var selectedCountries = Navigator.pushNamed(
+                    context, countriesListRoute,
                     arguments: const CountriesListPage(selectedCountries: []));
               },
             )
