@@ -1,14 +1,26 @@
+import 'dart:async';
+
 import 'package:blockcorp/features/countries/domain/entities/countries.dart';
+import 'package:blockcorp/features/countries/presentation/controllers/countries/countries_controller.dart';
 import 'package:blockcorp/features/countries/presentation/widgets/country_item.dart';
 import 'package:blockcorp/features/countries/presentation/widgets/custom_button.dart';
+import 'package:blockcorp/injection_container.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class CountriesListPage extends StatelessWidget {
+class CountriesListPage extends StatefulWidget {
   const CountriesListPage({Key? key, required this.selectedCountries})
       : super(key: key);
   final List<Countries>? selectedCountries;
+
+  @override
+  State<CountriesListPage> createState() => _CountriesListPageState();
+}
+
+class _CountriesListPageState extends State<CountriesListPage> {
   @override
   Widget build(BuildContext context) {
+    final CountriesController _controller = Get.put(sl<CountriesController>());
     return SafeArea(
       child: Scaffold(
         body: Column(
@@ -56,20 +68,57 @@ class CountriesListPage extends StatelessWidget {
               height: 25,
             ),
             Expanded(
-                child: ListView.builder(
-                    itemCount: 30,
-                    itemBuilder: ((context, index) {
-                      return CountryItem(
-                        commonName: 'ssss',
-                        officialName: 'asdad',
-                        hasCheckbox: true,
-                        checkboxValue: true,
-                        onChanged: (value) {},
-                      );
-                    }))),
+                child: GetBuilder(
+                    init: _controller,
+                    initState: (_) {
+                      _controller.fetchData();
+                    },
+                    builder: (_) {
+                      if (_controller.isLoading) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (_controller.error != null) {
+                        return Text(_controller.error ?? '');
+                      }
+                      return ListView.builder(
+                          itemCount: _controller.countriesList.length,
+                          itemBuilder: ((context, index) {
+                            final _isSelectedStream =
+                                StreamController<bool>.broadcast();
+                            return StreamBuilder<bool>(
+                                stream: _isSelectedStream.stream,
+                                builder: (context, snapshot) {
+                                  bool data = snapshot.data ?? false;
+                                  return CountryItem(
+                                    commonName: _controller
+                                            .countriesList[index].commonName ??
+                                        '',
+                                    officialName: _controller
+                                            .countriesList[index]
+                                            .officialName ??
+                                        '',
+                                    hasCheckbox: true,
+                                    checkboxValue: data,
+                                    onChanged: (value) {
+                                      _isSelectedStream.add(!data);
+                                      if (value != null) {
+                                        if (value) {
+                                          _controller.addCountry(
+                                              _controller.countriesList[index]);
+                                        } else {
+                                          _controller.removeCountry(
+                                              _controller.countriesList[index]);
+                                        }
+                                      }
+                                    },
+                                  );
+                                });
+                          }));
+                    })),
             CustomButton(
               name: 'Done',
-              onPressed: () {},
+              onPressed: () {
+                Navigator.pop(context, _controller.selectesCountriesList);
+              },
             )
           ],
         ),

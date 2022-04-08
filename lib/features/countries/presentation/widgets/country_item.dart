@@ -27,18 +27,23 @@ class CountryItem extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'official: ' + officialName,
-                style: const TextStyle(fontSize: 20),
-              ),
-              Text(
-                'common: ' + commonName,
-                style: const TextStyle(fontSize: 15),
-              ),
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'official: ' + officialName,
+                  style: const TextStyle(fontSize: 20),
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                ),
+                Text(
+                  'common: ' + commonName,
+                  style: const TextStyle(fontSize: 15),
+                  maxLines: 1,
+                ),
+              ],
+            ),
           ),
           if (hasCheckbox)
             Checkbox(
