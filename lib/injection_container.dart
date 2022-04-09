@@ -6,9 +6,9 @@ import 'package:blockcorp/features/countries/domain/repositories/countries_repos
 import 'package:blockcorp/features/countries/domain/usecases/fetch_countries.dart';
 import 'package:blockcorp/features/countries/presentation/controllers/countries/countries_controller.dart';
 import 'package:blockcorp/features/countries/presentation/controllers/countries/home_controller.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
-import 'package:shitty_connection_checker/internet_connection_checker.dart';
 
 final sl = GetIt.instance;
 
@@ -40,7 +40,7 @@ void _injectExternalLibraries() {
     ),
   );
   //Data Connection Checker
-  sl.registerLazySingleton(() => InternetConnectionChecker());
+  sl.registerLazySingleton(() => Connectivity());
 }
 
 void _injectSystemStatus() {
