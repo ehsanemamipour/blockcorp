@@ -12,6 +12,7 @@ class CountriesListPage extends StatelessWidget {
   final List<Countries>? selectedCountries;
 
   final CountriesController _controller = Get.put(sl<CountriesController>());
+  final ScrollController scrollController = ScrollController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -67,7 +68,14 @@ class CountriesListPage extends StatelessWidget {
                     init: _controller,
                     initState: (_) {
                       _controller.fetchData(selectedCountries ?? []);
-                      // _controller.addSelectedData(selectedCountries ?? []);
+                      scrollController.addListener(() {
+                        if (scrollController.offset ==
+                            scrollController.position.maxScrollExtent) {
+                          _controller.fetchData(_controller.countriesList
+                              .where((element) => element.isSelected == true)
+                              .toList());
+                        }
+                      });
                     },
                     builder: (_) {
                       if (_controller.isLoading) {
@@ -77,6 +85,7 @@ class CountriesListPage extends StatelessWidget {
                       }
                       return ListView.builder(
                           itemCount: _controller.searchtList.length,
+                          controller: scrollController,
                           itemBuilder: ((context, index) {
                             return CountryItem(
                               commonName:

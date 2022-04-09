@@ -14,9 +14,11 @@ class CountriesController extends GetxController {
   String? error;
 
   fetchData(List<Countries> countries) async {
+    isLoading = true;
+    update();
     final result = await _fetchCountries(NoParams());
     result.fold((l) {
-      isLoading = true;
+      isLoading = false;
       error = l.message;
     }, (r) {
       countriesList = r;
