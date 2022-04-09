@@ -9,7 +9,7 @@ class Router {
   static Route<dynamic> generateRoute(RouteSettings settings) {
     switch (settings.name) {
       case homeRoute:
-        return MaterialPageRoute(builder: (_) => const HomePage());
+        return MaterialPageRoute(builder: (_) => HomePage());
       case countriesListRoute:
         CountriesListPage instance = settings.arguments as CountriesListPage;
         return MaterialPageRoute(

@@ -6,19 +6,16 @@ import 'package:blockcorp/injection_container.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CountriesListPage extends StatefulWidget {
-  const CountriesListPage({Key? key, required this.selectedCountries})
+class CountriesListPage extends StatelessWidget {
+   CountriesListPage({Key? key, required this.selectedCountries})
       : super(key: key);
   final List<Countries>? selectedCountries;
 
-  @override
-  State<CountriesListPage> createState() => _CountriesListPageState();
-}
 
-class _CountriesListPageState extends State<CountriesListPage> {
+  final CountriesController _controller = Get.put(sl<CountriesController>());
   @override
   Widget build(BuildContext context) {
-    final CountriesController _controller = Get.put(sl<CountriesController>());
+    
     return SafeArea(
       child: Scaffold(
         body: Column(

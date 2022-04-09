@@ -5,6 +5,7 @@ import 'package:blockcorp/features/countries/data/repositories/countries_reposit
 import 'package:blockcorp/features/countries/domain/repositories/countries_repository.dart';
 import 'package:blockcorp/features/countries/domain/usecases/fetch_countries.dart';
 import 'package:blockcorp/features/countries/presentation/controllers/countries/countries_controller.dart';
+import 'package:blockcorp/features/countries/presentation/controllers/countries/home_controller.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:shitty_connection_checker/internet_connection_checker.dart';
@@ -20,6 +21,7 @@ Future<void> init() async {
 void _injectCountries() {
   //controller
   sl.registerFactory(() => CountriesController(sl()));
+  sl.registerFactory(() => HomeController());
   //usecase
   sl.registerLazySingleton(() => FetchCountries(repository: sl()));
 

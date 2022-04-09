@@ -6,5 +6,6 @@ class HomeController extends GetxController {
 
   addSelectedCountries(List<Countries> countries) {
     countriesList.addAll(countries);
+    update();
   }
 }
