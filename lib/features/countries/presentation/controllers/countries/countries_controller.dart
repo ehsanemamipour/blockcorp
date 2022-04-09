@@ -12,7 +12,8 @@ class CountriesController extends GetxController {
 
   bool isLoading = true;
   String? error;
-  fetchData() async {
+
+  fetchData(List<Countries> countries) async {
     final result = await _fetchCountries(NoParams());
     result.fold((l) {
       isLoading = true;
@@ -20,8 +21,24 @@ class CountriesController extends GetxController {
     }, (r) {
       countriesList = r;
       searchtList = r;
+      addSelectedData(countries);
       isLoading = false;
     });
+    update();
+  }
+
+  addSelectedData(List<Countries> countries) {
+    for (Countries i in countries) {
+      int index = countriesList.indexOf(i);
+      List<CountriesModel> replacement = [
+        CountriesModel(
+            commonName: i.commonName,
+            officialName: i.officialName,
+            isSelected: i.isSelected)
+      ];
+      countriesList.replaceRange(index, index + 1, replacement);
+      searchtList.replaceRange(index, index + 1, replacement);
+    }
     update();
   }
 

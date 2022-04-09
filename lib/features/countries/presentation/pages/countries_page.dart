@@ -7,15 +7,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class CountriesListPage extends StatelessWidget {
-   CountriesListPage({Key? key, required this.selectedCountries})
+  CountriesListPage({Key? key, required this.selectedCountries})
       : super(key: key);
   final List<Countries>? selectedCountries;
-
 
   final CountriesController _controller = Get.put(sl<CountriesController>());
   @override
   Widget build(BuildContext context) {
-    
     return SafeArea(
       child: Scaffold(
         body: Column(
@@ -68,7 +66,8 @@ class CountriesListPage extends StatelessWidget {
                 child: GetBuilder(
                     init: _controller,
                     initState: (_) {
-                      _controller.fetchData();
+                      _controller.fetchData(selectedCountries ?? []);
+                      // _controller.addSelectedData(selectedCountries ?? []);
                     },
                     builder: (_) {
                       if (_controller.isLoading) {
